@@ -31,8 +31,8 @@
               Cadastrar
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="CadastrarAnimal.php">Cuidador</a></li>
-              <li><a class="dropdown-item" href="#">Animal</a></li>
+              <li><a class="dropdown-item" href="CadastrarCuidado.php">Cuidador</a></li>
+              <li><a class="dropdown-item" href="CadastrarAnimal.php">Animal</a></li>
 
             </ul>
           </li>

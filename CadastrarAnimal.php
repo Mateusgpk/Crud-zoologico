@@ -9,26 +9,71 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body style="padding-top: 70px;">
-    
-<?php include 'Navbar.php';?>
+
+<?php
+include 'Navbar.php';
+include 'credencias.php';
+
+$conn = new mysqli($server, $user, $password, $db);
+
+if ($conn->connect_error) {
+    die("Erro: " . $conn->connect_error);
+}
+
+// consulta
+$sql = "SELECT id, nome FROM pais";
+$result = $conn->query($sql);
+
+
+?>
 <div class="divForm" >
-<form>
+<form id="Form">
   <div class="mb-3" >
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <label for="NomeAnimal" class="form-label">Nome do animal</label>
+    <input type="text" class="form-control" id="nomeAnimal" name="nomeAnimal">
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+    <label for="descAnimal" class="form-label">Descrição do Animal</label>
+    <input type="text" class="form-control" id="descAnimal" name="descAnimal">
   </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    <div class="mb-3">
+    <label for="DataNascimento" class="form-label">Data de Nascimento</label>
+    <input type="date" class="form-control" id="dataNascimento" name="dataNascimento">
   </div>
+    <div class="mb-3">
+    <label for="especie" class="form-label">Espécie</label>
+    <input type="text" class="form-control" id="especie" name="especie">
+  </div>
+    <div class="mb-3">
+    <label for="habit" class="form-label">Habitat</label>
+    <input type="text" class="form-control" id="habitat" name="habitat">
+  </div>
+    <div class="mb-3">
+    <label for="pais" class="form-label">País de origem</label>
+    <select name="pais" id="pais" class="form-control">
+      <option value="">Selecionar</option>
+      <?php 
+         
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<option value='{$row['id']}'>{$row['nome']}</option>";
+        }
+    }
+    ?>
+    </select>
+  </div>
+    <div class="mb-3">
+    <label for="foto" class="form-label">Foto</label>
+    <input type="file" class="form-control" accept="image/*" name="foto">
+  </div>
+
+   <div id="msg"></div> 
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
 </div>
+<script src="javascript.js">
+</script>
 <?php include 'js.php'?>
 </body>
 </html>
