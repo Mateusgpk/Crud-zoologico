@@ -29,9 +29,12 @@ if ($result->num_rows == 0) {
     exit;
 }
 
+$sql = "SELECT id, nome FROM pais";
+$pais = $conn->query($sql);
+
 $animalData = $result->fetch_assoc();
 ?>
-
+<form id="Form">
 <div class="container mt-5 pt-5">
     <div class="card shadow-lg p-4" style="max-width: 900px; margin: auto;">
 
@@ -48,27 +51,40 @@ $animalData = $result->fetch_assoc();
             </div>
 
             <div class="col-md-8">
-                <h2 class="fw-bold"><?= $animalData['nomeAnimal'] ?></h2>
+                <h2 class="fw-bold"><input type="text" name="nomeAnimal" value="<?= $animalData['nomeAnimal'] ?>"></h2>
                 <hr>
 
-                <p><strong>Espécie:</strong> <?= $animalData['especie'] ?></p>
-                <p><strong>Habitat:</strong> <?= $animalData['habitat'] ?></p>
-                <p><strong>Data de nascimento:</strong> <?= date("d/m/Y", strtotime($animalData['dataNascimento'])) ?></p>
-                <p><strong>País de origem:</strong> <?= $animalData['nome'] ?></p>
+                <p><strong>Espécie:</strong> <input type="text" name="especie" value="<?= $animalData['especie'] ?>"></p>
+                <p><strong>Habitat:</strong> <input type="text" name="habitat" value="<?= $animalData['habitat'] ?>"></p>
+                <p><strong>Data de nascimento:</strong> <input type="date" name="dataNascimento" value="<?= $animalData['dataNascimento'] ?>"></p>
+                <p><strong>País de origem:</strong> 
+                <select name="pais" id="pais" class="form-control">
+                <option value="<?= $animalData['id'] ?>"><?= $animalData['nome'] ?></option>
+                <?php 
+         
+                if ($pais->num_rows > 0) {
+                    while ($row = $pais->fetch_assoc()) {
+                        echo "<option value='{$row['id']}'>{$row['nome']}</option>";
+                    }
+                }
+                ?>
+                </select>
 
+                <input type="hidden" name="foto" value="<?= $imagem ?>">
+                <input type="hidden" name="id" value="<?= $animal ?>">
+                
                 <hr>
-                <p class="mt-3"><strong>Descrição:</strong><br><?= $animalData['descAnimal'] ?></p>
-
+                <p class="mt-3"><strong>Descrição:</strong><br> <input type="text" name="descAnimal" value="<?= $animalData['descAnimal'] ?>"></p>
+                
                 <div class="d-flex justify-content-between mt-4">
 
                 <div>
                     <a href="index.php" class="btn btn-secondary me-2">Voltar</a>
-                    <a href="editarAnimal.php?id=<?= $animalData['idAnimal'] ?>" class="btn btn-primary">Atualizar</a>
+                    <button class="btn btn-primary"
+                    onclick="SalvarAlteracoes()"
+                    >Salvar</button>
                 </div>
-                <button class="btn btn-danger"
-                    onclick="confirmDelete(<?= $animalData['idAnimal'] ?>, '<?= $imagem ?>')">
-                    Deletar
-                </button>
+                </form>
                 
             </div>
             <div id="msg"></div>
@@ -82,21 +98,25 @@ $animalData = $result->fetch_assoc();
 
 ?>
 <script>
-function confirmDelete(id,file) {
-    if (!confirm("Tem certeza que deseja deletar este animal?")) return;
+function SalvarAlteracoes() {
+    if (!confirm("Deseja salvar as alterações?")) return;
+    const form =document.getElementById("Form")
+    const formdata = new FormData(form);
 
-    fetch("inserts/deleteAnimal.php?id=" + id + "&file=" + file)
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('msg').innerHTML = data;
-
-
-            setTimeout(() => {
+    fetch('inserts/insertanimal.php', {
+        method:'POST',
+        body: formdata
+    })
+    .then(res => res.text())
+    .then(data => {
+                    setTimeout(() => {
                 window.location.href = "index.php";
             }, 1000);
+        document.getElementById('msg').innerHTML = data;
+        
         })
         .catch(err => console.error(err));
-    }
+    };
 </script>
 
 <?php include 'js.php'?>

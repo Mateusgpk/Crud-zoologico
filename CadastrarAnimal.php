@@ -20,7 +20,7 @@ if ($conn->connect_error) {
     die("Erro: " . $conn->connect_error);
 }
 
-// consulta
+
 $sql = "SELECT id, nome FROM pais";
 $result = $conn->query($sql);
 
