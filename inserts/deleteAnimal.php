@@ -19,7 +19,7 @@ WHERE idAnimal=$animal";
         echo "ERRO: " . $conn->error;
     }
 
-$caminho=  "../uploads".$file;   
+$caminho=  "../uploads/".$file;   
 if (file_exists($caminho)) {
     if (unlink($caminho)) {
         echo "O arquivo '$caminho' foi excluído com sucesso.";

@@ -23,15 +23,17 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php">Home</a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item">
+            <a href="VerCuidado.php" class="nav-link active" aria-current="page"> Vizualizar Cuidados</a>
+          </li>
+          <li class="nav-item dropdown"> 
+          
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Cadastrar
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><a class="dropdown-item" href="CadastrarAnimal.php">Animal</a></li>
-              <li><a class="dropdown-item" href="CadastrarCuidado.php">Cuidador</a></li>
-              
-
+              <li><a class="dropdown-item" href="CadastrarCuidado.php">Cuidado</a></li>
             </ul>
           </li>
         </ul>

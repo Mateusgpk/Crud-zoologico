@@ -25,6 +25,19 @@ if ($conn->query($sql) === TRUE) {
 // Conecta no banco para criar tabelas
 $conn->select_db($db);
 
+$sql_tabela ="CREATE TABLE IF NOT EXISTS Cuidado(
+idCuidado INT AUTO_INCREMENT PRIMARY KEY,
+nomeCuidado varchar(100) unique,
+descCuidado varchar(400),
+frequencia varchar(30)
+);";
+
+if ($conn->query($sql_tabela) === TRUE) {
+    echo "Tabela 'Cuidado' criada/verificada com sucesso.<br>";
+} else {
+    echo "Erro ao criar tabela: " . $conn->error;
+};
+
 $sql_tabela = "create table if not exists pais (
 id INT AUTO_INCREMENT PRIMARY KEY,
 nome varchar(100) unique
@@ -69,13 +82,17 @@ habitat varchar(100),
 paisOrigem int,
 foto varchar(255),
 foreign key (paisOrigem) references pais(id)
-);";
+);
+
+";
  
 if ($conn->query($sql_tabela) === TRUE) {
     echo "Tabela 'animal' criada/verificada com sucesso.<br>";
 } else {
     echo "Erro ao criar tabela: " . $conn->error;
-}
+};
+
+
 
 echo "<hr><strong>Instalação concluída.</strong>";
 

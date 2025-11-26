@@ -4,5 +4,20 @@
     justify-self: center;
     margin-left: 50%;
     margin-right: 50%;
+    background-color: #463F3A;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 20px #6d6d6d ;
 
+}
+
+.text {
+text-align: center;
+}
+
+.tabela{
+    width: 90%;
+    justify-self: center;
+    align-self: center;
+    border-radius: 20px;
 }

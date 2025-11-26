@@ -1,10 +1,12 @@
 
+
+ const destino = document.getElementById("des").textContent
 document.getElementById("Form").addEventListener("submit", function(event){
     event.preventDefault();
-
+   
     const formdata = new FormData(this);
-
-    fetch('inserts/insertanimal.php', {
+    console.log(destino)
+    fetch(destino, {
         method:'POST',
         body: formdata
     })

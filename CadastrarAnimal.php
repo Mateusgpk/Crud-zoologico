@@ -27,10 +27,11 @@ $result = $conn->query($sql);
 
 ?>
 <div class="divForm" >
+  <h1 class="text">Cadastrar Animal</h1>
 <form id="Form">
   <div class="mb-3" >
     <label for="NomeAnimal" class="form-label">Nome do animal</label>
-    <input type="text" class="form-control" id="nomeAnimal" name="nomeAnimal">
+    <input type="text" class="form-control  " id="nomeAnimal" name="nomeAnimal">
   </div>
   <div class="mb-3">
     <label for="descAnimal" class="form-label">Descrição do Animal</label>
@@ -70,7 +71,7 @@ $result = $conn->query($sql);
    <div id="msg"></div> 
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
+<div hidden id="des">inserts/insertanimal.php</div>
 </div>
 <script src="javascript.js">
 </script>
