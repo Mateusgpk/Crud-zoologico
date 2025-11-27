@@ -69,7 +69,7 @@ $result = $conn->query($sql);
   </div>
 
    <div id="msg"></div> 
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Cadastrar</button>
 </form>
 <div hidden id="des">inserts/insertanimal.php</div>
 </div>

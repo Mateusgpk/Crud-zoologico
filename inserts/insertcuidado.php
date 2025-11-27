@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     }else
     {
     $sql = "UPDATE Cuidado 
-        SET nomeAnimal='$nomeanimal', descAnimal= '$descAnimal', dataNascimento= '$dataNascimento', especie= '$especie', habitat ='$habitat', paisOrigem='$pais', foto='$fotoup'
-        WHERE idAnimal='$id';
+        SET nomeCuidado='$cuidado', descCuidado= '$descCuidado', frequencia='$frequencia'
+        WHERE idCuidado='$id';
         ";
     }
     if ($conn->query($sql) === TRUE) {

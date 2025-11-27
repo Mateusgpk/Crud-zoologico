@@ -25,10 +25,10 @@ $result= $conn->query($sql);
     <thead>
     <tr><td colspan="6" style="text-align: center;"><h3>CUIDADOS</h3></td></tr>
     <tr>
-        <td>Número</td>
-        <td>Nome do Cuidado</td>
-        <td>Descrição</td>
-        <td>Frequencia</td>
+        <td><strong>Número</strong></td>
+        <td><strong>Nome do Cuidado</strong></td>
+        <td><strong>Descrição</strong></td>
+        <td><strong>Frequencia</strong></td>
         <td></td>
         <td></td>
     </tr>
@@ -37,20 +37,41 @@ $result= $conn->query($sql);
 if ($result->num_rows>0){
 while($row=$result->fetch_assoc()){
 echo"
-  <tr>
+  <tr class=\"cen\">
     <td>{$row['idCuidado']}</td>
     <td>{$row['nomeCuidado']}</td>
     <td>{$row['descCuidado']}</td>
     <td>{$row['frequencia']}</td>
     <td><a href=\"EditCuidado.php?id={$row['idCuidado']}\" class=\"btn btn-primary \">Editar</a></td>
-    <td><a href=\"DeleteCuidado.php?id={$row['idCuidado']}\" class=\"btn btn btn-danger \">Deletar</a></td>
-  </tr>
+    <td> <button
+class=\"btn btn-danger\"onclick=\"confirmDelete({$row['idCuidado']})\"> Deletar </button></td>
+</tr>
 ";
 }
-}?>
-<a href=""></a>
-</table>
+}
+else{
+  echo "<tr><td colspan=\"6\">Nenhum Cuidado Registrado Ainda</td></tr>";
+}
+?>
 
+</table>
+<div id="msg"></div>
+<script>
+  function confirmDelete(id) {
+    if (!confirm("Tem certeza que deseja deletar este cuidado?")) return;
+    const msg = document.getElementById('msg')
+    msg.innerHTML=""
+    fetch("inserts/deleteCuidado.php?id=" + id)
+        .then(res => res.text())
+        .then(data => {
+            msg.innerHTML = data;
+            setTimeout(() => {
+                msg.innerHTML=""
+            }, 1000);
+        })
+        .catch(err => console.error(err));
+    }
+</script>
 <?php include 'js.php'?>
 </body>
 </html>

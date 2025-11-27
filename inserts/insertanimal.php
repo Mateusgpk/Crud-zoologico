@@ -10,12 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     $especie        = $_POST["especie"];
     $habitat        = $_POST["habitat"];
     $pais           = $_POST["pais"];
-    $foto           = $_FILES["foto"];
-    
-
-$nomeFinal = time() . "_" . $foto['name'];
-
-move_uploaded_file($foto['tmp_name'], "../uploads/" . $nomeFinal);
 
     $conn = new mysqli($server, $user, $password, $db);
 
@@ -24,8 +18,13 @@ move_uploaded_file($foto['tmp_name'], "../uploads/" . $nomeFinal);
     }
 
     if ($id===""){
+    $foto= $_FILES["foto"];
+    $nomeFinal = time() . "_" . $foto['name'];
+    move_uploaded_file($foto['tmp_name'], "../uploads/" . $nomeFinal);
+
     $sql = "INSERT INTO Animais (nomeAnimal, descAnimal, dataNascimento, especie, habitat, paisOrigem, foto)
             VALUES ('$nomeanimal', '$descAnimal', '$dataNascimento', '$especie', '$habitat', '$pais', '$nomeFinal')";
+    $tex= "inserido";
     }else
     {
     $fotoup= $_POST["foto"];
@@ -33,9 +32,10 @@ move_uploaded_file($foto['tmp_name'], "../uploads/" . $nomeFinal);
         SET nomeAnimal='$nomeanimal', descAnimal= '$descAnimal', dataNascimento= '$dataNascimento', especie= '$especie', habitat ='$habitat', paisOrigem='$pais', foto='$fotoup'
         WHERE idAnimal='$id';
         ";
+    $tex= "atualizado";
     }
     if ($conn->query($sql) === TRUE) {
-        echo "Animal inserido com sucesso!";
+        echo "Animal $tex com sucesso!";
     } else {
         echo "ERRO: " . $conn->error;
     }

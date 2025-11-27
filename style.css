@@ -19,5 +19,18 @@ text-align: center;
     width: 90%;
     justify-self: center;
     align-self: center;
-    border-radius: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.cen{
+justify-content: center;
+align-items: center;
+}
+
+#msg{
+    justify-self: center;
+    align-self: center;
+    text-align: center;
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php 
@@ -80,40 +81,44 @@ $animalData = $result->fetch_assoc();
 
                 <div>
                     <a href="index.php" class="btn btn-secondary me-2">Voltar</a>
-                    <button class="btn btn-primary"
+                    <button type="button" class="btn btn-primary"
                     onclick="SalvarAlteracoes()"
                     >Salvar</button>
                 </div>
                 </form>
                 
             </div>
-            <div id="msg"></div>
+            
             </div>
         </div>
 
     </div>
 </div>
 
+<div id="msg" ></div>
 
 
-?>
 <script>
+
+
 function SalvarAlteracoes() {
     if (!confirm("Deseja salvar as alterações?")) return;
     const form =document.getElementById("Form")
     const formdata = new FormData(form);
-
+    const msg = document.getElementById('msg')
+    msg.classList.add("alert", "alert-success")
+    msg.style.transform = `translateY(-250px)`
     fetch('inserts/insertanimal.php', {
         method:'POST',
         body: formdata
     })
     .then(res => res.text())
     .then(data => {
-                    setTimeout(() => {
+         msg.innerHTML= data;  
+         
+            setTimeout(() => {
                 window.location.href = "index.php";
-            }, 1000);
-        document.getElementById('msg').innerHTML = data;
-        
+            }, 1000 );        
         })
         .catch(err => console.error(err));
     };

@@ -22,7 +22,7 @@
   </div>
     <div class="mb-3" >
     <label for="Frequencia" class="form-label">Frequência:</label>
-    <select name="frequencia" id="">
+    <select name="frequencia" id="" class="form-control">
         <option value="Selecionar">Selecionar</option>
         <option value="Diario">Diario</option>
         <option value="Semanal">Semanal</option>
@@ -32,7 +32,7 @@
     </select>
 </div>
    <div id="msg"></div> 
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Cadastrar</button>
 </form>
 </div>
 <div hidden id="des">inserts/insertcuidado.php</div>

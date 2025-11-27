@@ -89,8 +89,6 @@ function confirmDelete(id,file) {
         .then(res => res.text())
         .then(data => {
             document.getElementById('msg').innerHTML = data;
-
-
             setTimeout(() => {
                 window.location.href = "index.php";
             }, 1000);
