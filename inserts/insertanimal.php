@@ -19,25 +19,60 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
 
     if ($id===""){
     $foto= $_FILES["foto"];
+    $extensao = strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION));
+    $permitidas = ["jpg", "jpeg", "png", "gif"];
+
+    if (!in_array($extensao, $permitidas)) {
+        die("Formato de imagem inválido.");
+    }
     $nomeFinal = time() . "_" . $foto['name'];
     move_uploaded_file($foto['tmp_name'], "../uploads/" . $nomeFinal);
 
-    $sql = "INSERT INTO Animais (nomeAnimal, descAnimal, dataNascimento, especie, habitat, paisOrigem, foto)
-            VALUES ('$nomeanimal', '$descAnimal', '$dataNascimento', '$especie', '$habitat', '$pais', '$nomeFinal')";
+        $stmt = $conn->prepare("
+            INSERT INTO Animais 
+            (nomeAnimal, descAnimal, dataNascimento, especie, habitat, paisOrigem, foto)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ");
+
+        $stmt->bind_param("sssssss", 
+            $nomeanimal, 
+            $descAnimal, 
+            $dataNascimento, 
+            $especie, 
+            $habitat, 
+            $pais, 
+            $nomeFinal
+        );
     $tex= "inserido";
     }else
     {
     $fotoup= $_POST["foto"];
-    $sql = "UPDATE Animais 
-        SET nomeAnimal='$nomeanimal', descAnimal= '$descAnimal', dataNascimento= '$dataNascimento', especie= '$especie', habitat ='$habitat', paisOrigem='$pais', foto='$fotoup'
-        WHERE idAnimal='$id';
-        ";
+    $id = (int)$id;
+    $stmt = $conn->prepare("
+        UPDATE Animais 
+        SET nomeAnimal=?, descAnimal=?, dataNascimento=?, especie=?, habitat=?, paisOrigem=?, foto=?
+        WHERE idAnimal=?
+    ");
+
+    $stmt->bind_param("sssssssi", 
+        $nomeanimal, 
+        $descAnimal, 
+        $dataNascimento, 
+        $especie, 
+        $habitat, 
+        $pais, 
+        $fotoup,
+        $id
+    );
     $tex= "atualizado";
     }
-    if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute()) {
         echo "Animal $tex com sucesso!";
     } else {
-        echo "ERRO: " . $conn->error;
+        echo "ERRO: " . $stmt->error;
     }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>

@@ -16,19 +16,41 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     }
 
     if ($id===""){
-    $sql = "INSERT INTO Cuidado (nomeCuidado, descCuidado, frequencia)
-            VALUES ('$cuidado', '$descCuidado', '$frequencia')";
+    $stmt = $conn->prepare("
+            INSERT INTO Cuidado (nomeCuidado, descCuidado, frequencia)
+            VALUES (?, ?, ?)
+        ");
+
+    $stmt->bind_param("sss", 
+        $cuidado, 
+        $descCuidado, 
+        $frequencia
+    );
+    $tex= "inserido";
     }else
     {
-    $sql = "UPDATE Cuidado 
-        SET nomeCuidado='$cuidado', descCuidado= '$descCuidado', frequencia='$frequencia'
-        WHERE idCuidado='$id';
-        ";
+        $id = (int)$id;
+        $stmt = $conn->prepare("
+            UPDATE Cuidado 
+            SET nomeCuidado=?, descCuidado=?, frequencia=?
+            WHERE idCuidado=?
+        ");
+
+        $stmt->bind_param("sssi", 
+            $cuidado, 
+            $descCuidado, 
+            $frequencia,
+            $id
+        );
+        $tex= "atualizado";
     }
-    if ($conn->query($sql) === TRUE) {
-        echo "Cuidado inserido com sucesso!";
+    if ($stmt->execute()) {
+        echo "Cuidado $tex com sucesso!";
     } else {
-        echo "ERRO: " . $conn->error;
+        echo "ERRO: " . $stmt->error;
     }
+    
+    $stmt->close();
+    $conn->close();
 }
 ?>
